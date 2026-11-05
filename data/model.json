@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0-synthetic",
+  "trained_on": "data sintetis berbasis aturan domain (ml/train_risk_model.py, seed 20261104)",
+  "intercept": -2.0235,
+  "coef": {
+    "temp_dev": 0.9845,
+    "short_duration": 0.6396,
+    "not_sanitized": 1.341,
+    "no_lab": 0.8518
+  },
+  "labels": {
+    "temp_dev": "Suhu destilasi menyimpang dari rentang acuan",
+    "short_duration": "Durasi destilasi singkat",
+    "not_sanitized": "Kebersihan alat belum dikonfirmasi",
+    "no_lab": "Belum ada hasil uji laboratorium"
+  },
+  "thresholds": {
+    "rendah": 0.33,
+    "sedang": 0.66
+  }
+}

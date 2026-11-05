@@ -1,0 +1,137 @@
+================================================================================
+QUICK FILL GUIDE - Copy-paste ini untuk isi [ISI] yang tersisa
+================================================================================
+
+SEBELUM ISI: Siapkan informasi ini dulu:
+1. URL GitHub repo (setelah push)
+2. URL Vercel deployment (setelah deploy)
+3. Nama tim & anggota dengan peran masing-masing
+4. Email kontak untuk security & urgent issues
+
+================================================================================
+FILE 1: README.md
+================================================================================
+
+LOKASI 1 (baris ~80):
+CARI:   git clone [ISI - URL repository GitHub Anda]
+GANTI:  git clone https://github.com/USERNAME/REPO-NAME.git
+        (ganti USERNAME dan REPO-NAME dengan milik Anda)
+
+LOKASI 2 (baris ~95):
+CARI:   [ISI - URL produksi Vercel, contoh: https://araktrace.vercel.app]
+GANTI:  https://your-project.vercel.app
+        (ganti dengan URL deployment Vercel Anda)
+
+LOKASI 3 (baris ~142-146):
+CARI:   [ISI - Lengkapi tabel berikut dengan informasi tim Anda]
+GANTI:  Isi tabel di bawahnya, contoh:
+
+| Nama | Peran | Kontribusi Utama |
+|---|---|---|
+| Ahmad Fauzi | Ketua / Full-stack Developer | Arsitektur sistem, API, integrasi AI, deployment |
+| Siti Rahayu | AI/ML Developer | Model risiko, RAG implementation, OCR integration, data preparation |
+| Budi Santoso | Frontend Developer | UI/UX design, responsive layout, accessibility, testing |
+
+================================================================================
+FILE 2: DISCLOSURE.md
+================================================================================
+
+LOKASI (baris terakhir ~47):
+CARI:   **Disusun oleh:** [ISI - Isi dengan nama anggota tim yang menyusun dokumen ini]
+GANTI:  **Disusun oleh:** [Nama Anda atau ketua tim]
+
+Contoh:
+**Disusun oleh:** Ahmad Fauzi (Ketua Tim)
+
+================================================================================
+FILE 3: docs/SECURITY.md
+================================================================================
+
+LOKASI (baris ~277-278):
+CARI:   - [ISI - Email ketua tim atau security contact]
+        - [ISI - Kontak pribadi team lead]
+GANTI:  - security@example.com atau ahmad.fauzi@university.ac.id
+        - WhatsApp: +62 812-xxxx-xxxx (Ahmad Fauzi)
+
+================================================================================
+FILE 4: docs/RELEASE.md
+================================================================================
+
+LOKASI (baris ~297-298):
+CARI:   - [ISI - Nama dan kontak ketua tim]
+        - [ISI - Nama dan kontak tech lead]
+GANTI:  - Ahmad Fauzi (Ketua) - ahmad.fauzi@university.ac.id / +62 812-xxxx-xxxx
+        - Siti Rahayu (Tech Lead) - siti.rahayu@university.ac.id / +62 813-xxxx-xxxx
+
+================================================================================
+FILE 5: docs/SUMBER_VERIFIKASI.md
+================================================================================
+
+LOKASI (baris ~23-24):
+CARI:   - **Diperiksa oleh:** [ISI - Nama anggota tim yang memverifikasi] / **Tanggal:** [ISI - Tanggal verifikasi]
+        - **Perbedaan yang ditemukan dan perbaikannya:** [ISI - Catat jika ada pasal yang berbeda atau perlu diperbaiki, atau tulis "Tidak ada perbedaan signifikan"]
+
+GANTI (setelah Anda verifikasi chunks.json dengan naskah resmi):
+        - **Diperiksa oleh:** Ahmad Fauzi / **Tanggal:** 5 November 2026
+        - **Perbedaan yang ditemukan dan perbaikannya:** Tidak ada perbedaan signifikan. Semua pasal dan angka cocok dengan naskah resmi.
+
+ATAU jika ada perbedaan:
+        - **Perbedaan yang ditemukan dan perbaikannya:** Pasal 12 di chunk pergub-pasal-11-12 awalnya menyebutkan "hotel, penginapan, wisma" - sudah diperbaiki menjadi sesuai naskah resmi. Chunks lain sudah sesuai.
+
+================================================================================
+CARA KERJA
+================================================================================
+
+1. Buka setiap file di editor
+2. Gunakan Ctrl+F untuk cari text di "CARI:"
+3. Ganti dengan text Anda sesuai "GANTI:"
+4. Save
+5. Ulangi untuk semua file
+
+ATAU gunakan PowerShell (hati-hati, test dulu):
+
+# Contoh replace URL repo
+$content = Get-Content README.md -Raw
+$content = $content -replace '\[ISI - URL repository GitHub Anda\]', 'https://github.com/yourname/araktrace.git'
+$content | Set-Content README.md
+
+================================================================================
+VERIFIKASI SETELAH ISI
+================================================================================
+
+Jalankan command ini untuk cek sisa [ISI]:
+```powershell
+Select-String -Path "README.md","DISCLOSURE.md","docs\SECURITY.md","docs\RELEASE.md","docs\SUMBER_VERIFIKASI.md" -Pattern "\[ISI"
+```
+
+Harusnya tidak ada output (atau hanya di dalam contoh/komentar).
+
+Lalu test presubmit:
+```powershell
+npm run presubmit
+```
+
+Harus lolos semua check!
+
+================================================================================
+SETELAH SEMUA TERISI
+================================================================================
+
+1. Commit & push:
+   git add .
+   git commit -m "Complete submission information"
+   git push origin main
+
+2. Create tag:
+   git tag -a v1.0-submission -m "Submission untuk AI Web Innovation Challenge 2026"
+   git push origin v1.0-submission
+
+3. Get commit hash:
+   git rev-parse HEAD
+   (copy output ini)
+
+4. Paste commit hash ke proposal PDF (edit ulang source document)
+
+5. Submit sesuai instruksi panitia!
+
+================================================================================

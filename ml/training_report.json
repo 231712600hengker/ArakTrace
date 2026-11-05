@@ -1,0 +1,16 @@
+{
+  "seed": 20261104,
+  "n_samples": 6000,
+  "positive_rate": 0.395,
+  "auc_holdout_sintetis": 0.756,
+  "accuracy_holdout_sintetis": 0.717,
+  "rule": {
+    "intercept": -2.3,
+    "temp_dev": 1.1,
+    "short_duration": 0.8,
+    "not_sanitized": 1.5,
+    "no_lab": 1.0,
+    "noise_sd": 0.5
+  },
+  "catatan": "Metrik pada data sintetis; tidak menggambarkan kinerja di dunia nyata."
+}

@@ -1,0 +1,2 @@
+"use client";
+export default function ErrorPage({ reset }: { reset: () => void }) { return <main><h1>Data tidak dapat dimuat</h1><div className="panel bad"><p>Langkah perbaikan:</p><ol><li>Periksa koneksi internet Anda</li><li>Pastikan server database dapat diakses</li><li>Coba muat ulang halaman dengan tombol di bawah</li><li>Jika masalah berlanjut, hubungi administrator</li></ol></div><button onClick={reset}>Coba lagi</button></main>; }

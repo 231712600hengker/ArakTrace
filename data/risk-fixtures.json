@@ -1,0 +1,56 @@
+[
+  {
+    "input": {
+      "distill_temp_c": 78,
+      "distill_duration_min": 150,
+      "equipment_sanitized": true,
+      "lab_tested": true
+    },
+    "expected_score": 0.12
+  },
+  {
+    "input": {
+      "distill_temp_c": 92,
+      "distill_duration_min": 150,
+      "equipment_sanitized": true,
+      "lab_tested": false
+    },
+    "expected_score": 0.55
+  },
+  {
+    "input": {
+      "distill_temp_c": 92,
+      "distill_duration_min": 60,
+      "equipment_sanitized": false,
+      "lab_tested": false
+    },
+    "expected_score": 0.9
+  },
+  {
+    "input": {
+      "distill_temp_c": 80,
+      "distill_duration_min": 120,
+      "equipment_sanitized": true,
+      "lab_tested": false
+    },
+    "expected_score": 0.27
+  },
+  {
+    "input": {
+      "distill_temp_c": 70,
+      "distill_duration_min": 100,
+      "equipment_sanitized": true,
+      "lab_tested": true
+    },
+    "expected_score": 0.23
+  },
+  {
+    "input": {
+      "distill_temp_c": 78,
+      "distill_duration_min": 45,
+      "equipment_sanitized": false,
+      "lab_tested": true
+    },
+    "expected_score": 0.49
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "name": "araktrace-bali",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "seed": "tsx scripts/seed.ts",
+    "test": "vitest run",
+    "eval:advisor": "tsx scripts/eval-advisor.ts",
+    "presubmit": "powershell -ExecutionPolicy Bypass -File ./scripts/pre-submit.ps1",
+    "demo:data": "node scripts/generate-demo-data.mjs",
+    "demo:users": "tsx scripts/create-demo-users.ts",
+    "ml:train": "python ml/train_risk_model.py"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.11",
+    "@types/react": "18.3.11",
+    "dotenv": "^18.0.9",
+    "tsx": "^4.23.15",
+    "typescript": "5.6.3",
+    "vitest": "^2.1.9"
+  }
+}
