@@ -91,22 +91,27 @@ function Content() {
   const recalled = rows.filter((r) => r.recalled);
   const rejected = rows.filter((r) => r.verification_status === "rejected" && !r.recalled);
   return (<main className="wide">
-    <h1>Dasbor verifikator</h1>
+    <div style={{ marginBottom: '32px' }}>
+      <div style={{ display: 'inline-block', padding: '6px 14px', background: 'linear-gradient(135deg, #E8F5F0 0%, #D1EDE1 100%)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: 'var(--green-dark)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '.05em', border: '1px solid var(--green)' }}>
+        🔍 Verifikator Dashboard
+      </div>
+      <h1 style={{ marginTop: '0', marginBottom: '16px' }}>Dasbor verifikator</h1>
+    </div>
     <StatCards items={[{ label: "Menunggu verifikasi", value: stats.menunggu }, { label: "Berisiko tinggi", value: stats.berisiko_tinggi, alert: true }, { label: "Terverifikasi", value: stats.terverifikasi }, { label: "Ditolak", value: stats.ditolak }, { label: "Ditarik", value: stats.ditarik, alert: true }]} />
-    {msg && <div className={`panel ${msg.ok ? "" : "bad"}`} role={msg.ok ? "status" : "alert"}>{msg.text}</div>}
-    <section className="section"><h2>Antrean verifikasi</h2>
-      <p className="note">Diurutkan dari risiko tertinggi. Periksa dokumen asli di luar sistem (hasil uji lab, surat jalan) sebelum memutuskan.</p>
-      {!queue.length && <p className="note">Tidak ada batch yang menunggu verifikasi.</p>}
+    {msg && <div className={`panel ${msg.ok ? "" : "bad"}`} role={msg.ok ? "status" : "alert"} style={{ marginTop: '20px' }}>{msg.text}</div>}
+    <section className="section" style={{ marginTop: '40px' }}><h2>📋 Antrean verifikasi</h2>
+      <p className="note" style={{ marginBottom: '20px', maxWidth: '65ch' }}>Diurutkan dari risiko tertinggi. Periksa dokumen asli di luar sistem (hasil uji lab, surat jalan) sebelum memutuskan.</p>
+      {!queue.length && <div style={{ padding: '48px 24px', textAlign: 'center', background: 'var(--muted-light)', borderRadius: 'var(--radius)', border: '2px dashed var(--line)' }}><div style={{ fontSize: '3rem', marginBottom: '16px' }}>✅</div><p className="note" style={{ fontSize: '16px' }}>Tidak ada batch yang menunggu verifikasi.</p></div>}
       {queue.map((r) => <QueueItem key={r.code} r={r} onDone={done} />)}</section>
-    <section className="section"><h2>Terverifikasi: pantau dan tarik bila perlu</h2>
+    <section className="section" style={{ marginTop: '40px' }}><h2>✅ Terverifikasi: pantau dan tarik bila perlu</h2>
       {!verified.length && <p className="note">Belum ada batch terverifikasi.</p>}
       {verified.map((r) => <VerifiedItem key={r.code} r={r} onDone={done} />)}</section>
-    {recalled.length > 0 && <section className="section"><h2>Ditarik dari peredaran</h2>
-      {recalled.map((r) => (<div key={r.code} className="item recalled"><Link href={`/batch/${r.code}`} className="mono">{r.code}</Link> <VerificationBadge status={r.verification_status} recalled />
-        <p className="note bad-text" style={{ margin: "4px 0" }}>{r.recall_reason}</p><ChainMini chain={r.chain} />
-        <p className="note">Pemegang: {r.chain.filter((e) => CHAIN_ORDER[e.actor_type] >= CHAIN_ORDER.produsen).map((e) => `${ACTOR_LABEL[e.actor_type]} ${e.actor_name}`).join(" → ") || "belum ada pemegang hilir"}</p></div>))}</section>}
-    {rejected.length > 0 && <section className="section"><details><summary><strong>Ditolak ({rejected.length})</strong></summary>
-      {rejected.map((r) => <div key={r.code} className="item"><Link href={`/batch/${r.code}`} className="mono">{r.code}</Link> <VerificationBadge status={r.verification_status} /><p className="note" style={{ margin: "4px 0" }}>{r.verification_note}</p></div>)}</details></section>}
+    {recalled.length > 0 && <section className="section" style={{ marginTop: '40px' }}><h2>🚫 Ditarik dari peredaran</h2>
+      {recalled.map((r) => (<div key={r.code} className="item recalled"><h3><Link href={`/batch/${r.code}`} className="mono" style={{ textDecoration: 'none' }}>{r.code}</Link></h3><div style={{ marginBottom: '8px' }}><VerificationBadge status={r.verification_status} recalled /></div>
+        <p className="note bad-text" style={{ margin: "6px 0", fontWeight: '600' }}>⚠️ {r.recall_reason}</p><ChainMini chain={r.chain} />
+        <p className="note" style={{ marginTop: '8px' }}><strong>Pemegang:</strong> {r.chain.filter((e) => CHAIN_ORDER[e.actor_type] >= CHAIN_ORDER.produsen).map((e) => `${ACTOR_LABEL[e.actor_type]} ${e.actor_name}`).join(" → ") || "belum ada pemegang hilir"}</p></div>))}</section>}
+    {rejected.length > 0 && <section className="section" style={{ marginTop: '40px' }}><details style={{ padding: '16px 20px', background: 'var(--muted-light)', borderRadius: 'var(--radius)', border: '1px solid var(--line)' }}><summary style={{ cursor: 'pointer', fontWeight: '700', fontSize: '1.05rem' }}>❌ Ditolak ({rejected.length})</summary>
+      <div style={{ marginTop: '16px' }}>{rejected.map((r) => <div key={r.code} className="item" style={{ background: '#fff' }}><h3><Link href={`/batch/${r.code}`} className="mono" style={{ textDecoration: 'none' }}>{r.code}</Link></h3><div style={{ marginBottom: '6px' }}><VerificationBadge status={r.verification_status} /></div><p className="note" style={{ margin: "4px 0" }}>{r.verification_note}</p></div>)}</div></details></section>}
   </main>);
 }
 

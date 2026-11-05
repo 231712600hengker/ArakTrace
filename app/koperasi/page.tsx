@@ -29,20 +29,25 @@ function Content() {
   const { stats, rows } = data;
   const attention = rows.filter((r) => r.recalled || r.verification_status === "rejected" || r.price_status === "di_bawah_batas" || r.volume_status === "tidak_konsisten");
   return (<main className="wide">
-    <h1>Dasbor koperasi</h1>
-    <div className="actions" style={{ marginTop: 0 }}><Link className="button-link" href="/koperasi/batch-baru">Catat batch baru</Link><Link className="button-link secondary" href="/advisor">Tanya AI Advisor</Link></div>
+    <div style={{ marginBottom: '32px' }}>
+      <div style={{ display: 'inline-block', padding: '6px 14px', background: 'var(--green-light)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: 'var(--green-dark)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '.05em' }}>
+        🏘️ Koperasi Dashboard
+      </div>
+      <h1 style={{ marginTop: '0', marginBottom: '16px' }}>Dasbor koperasi</h1>
+    </div>
+    <div className="actions" style={{ marginTop: 0, marginBottom: '32px' }}><Link className="button-link" href="/koperasi/batch-baru" style={{ textDecoration: 'none' }}>➕ Catat batch baru</Link><Link className="button-link secondary" href="/advisor" style={{ textDecoration: 'none' }}>💬 Tanya AI Advisor</Link></div>
     <StatCards items={[{ label: "Total batch", value: stats.total }, { label: "Menunggu verifikasi", value: stats.menunggu }, { label: "Terverifikasi", value: stats.terverifikasi }, { label: "Ditolak", value: stats.ditolak, alert: true }, { label: "Ditarik", value: stats.ditarik, alert: true }]} />
-    {attention.length > 0 && <section className="section"><h2>Perlu tindakan</h2>
-      {attention.map((r) => <div key={r.code} className="item attn"><Link href={`/batch/${r.code}`} className="mono">{r.code}</Link> <VerificationBadge status={r.verification_status} recalled={r.recalled} />
+    {attention.length > 0 && <section className="section" style={{ marginTop: '40px' }}><h2>⚠️ Perlu tindakan</h2>
+      {attention.map((r) => <div key={r.code} className="item attn"><h3><Link href={`/batch/${r.code}`} className="mono" style={{ textDecoration: 'none' }}>{r.code}</Link></h3><div style={{ marginBottom: '8px' }}><VerificationBadge status={r.verification_status} recalled={r.recalled} /></div>
         <ul className="warn-list red">{todo(r).filter((t) => !t.startsWith("Menunggu")).map((t) => <li key={t}>{t}</li>)}</ul></div>)}</section>}
-    <section className="section"><h2>Semua batch</h2>
-      {!rows.length && <p className="note">Belum ada batch. Mulai dengan mencatat batch pertama.</p>}
+    <section className="section" style={{ marginTop: '40px' }}><h2>📦 Semua batch</h2>
+      {!rows.length && <div style={{ padding: '48px 24px', textAlign: 'center', background: 'var(--muted-light)', borderRadius: 'var(--radius)', border: '2px dashed var(--line)' }}><div style={{ fontSize: '3rem', marginBottom: '16px' }}>📦</div><p className="note" style={{ fontSize: '16px', marginBottom: '20px' }}>Belum ada batch. Mulai dengan mencatat batch pertama.</p><Link href="/koperasi/batch-baru" className="button-link">Catat batch baru</Link></div>}
       {rows.map((r) => (<div key={r.code} className={`item${r.recalled ? " recalled" : ""}`}>
-        <h3><Link href={`/batch/${r.code}`} className="mono">{r.code}</Link></h3>
-        <p className="note" style={{ margin: "0 0 4px" }}>Nira {r.sap_type} · {r.distillation_date} · {r.volume_liters} liter · {r.regency}</p>
-        <VerificationBadge status={r.verification_status} recalled={r.recalled} /><RiskBadge label={r.risk.label} /><PriceBadge status={r.price_status} />
+        <h3><Link href={`/batch/${r.code}`} className="mono" style={{ textDecoration: 'none' }}>{r.code}</Link></h3>
+        <p className="note" style={{ margin: "6px 0 10px" }}>🌾 Nira {r.sap_type} · 📅 {r.distillation_date} · 🧪 {r.volume_liters} liter · 📍 {r.regency}</p>
+        <div style={{ marginBottom: '8px' }}><VerificationBadge status={r.verification_status} recalled={r.recalled} /><RiskBadge label={r.risk.label} /><PriceBadge status={r.price_status} /></div>
         <ChainMini chain={r.chain} />
-        {todo(r).length > 0 && <ul className="warn-list">{todo(r).map((t) => <li key={t}>{t}</li>)}</ul>}
+        {todo(r).length > 0 && <ul className="warn-list" style={{ marginTop: '12px' }}>{todo(r).map((t) => <li key={t}>{t}</li>)}</ul>}
       </div>))}
     </section>
   </main>);

@@ -55,24 +55,29 @@ function Content() {
   const active = rows.filter((r) => !r.recalled && r.allowed_next.some((t) => CHAIN_ORDER[t] >= CHAIN_ORDER.produsen));
   const rest = rows.filter((r) => !active.includes(r));
   return (<main className="wide">
-    <h1>Dasbor produsen</h1>
-    <p className="note">Hanya batch yang sudah diverifikasi yang tampil di sini. Jumlah liter tidak boleh bertambah antar tahap; kelebihan menandakan kemungkinan pencampuran atau pemalsuan.</p>
+    <div style={{ marginBottom: '32px' }}>
+      <div style={{ display: 'inline-block', padding: '6px 14px', background: 'linear-gradient(135deg, #E8F5F0 0%, #D1EDE1 100%)', borderRadius: '999px', fontSize: '12px', fontWeight: '700', color: 'var(--green-dark)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '.05em', border: '1px solid var(--green)' }}>
+        🏭 Produsen Dashboard
+      </div>
+      <h1 style={{ marginTop: '0', marginBottom: '12px' }}>Dasbor produsen</h1>
+      <p className="note" style={{ maxWidth: '65ch' }}>Hanya batch yang sudah diverifikasi yang tampil di sini. Jumlah liter tidak boleh bertambah antar tahap; kelebihan menandakan kemungkinan pencampuran atau pemalsuan.</p>
+    </div>
     <StatCards items={[{ label: "Siap diproses", value: stats.siap_diproses }, { label: "Dalam distribusi", value: stats.dalam_distribusi }, { label: "Selesai", value: stats.selesai }, { label: "Ditarik", value: stats.ditarik, alert: true }]} />
-    <section className="section"><h2>Perlu dilanjutkan</h2>
-      {!active.length && <p className="note">Tidak ada batch yang menunggu tahap berikutnya.</p>}
-      {active.map((r) => (<details key={r.code} className="item attn" open={active.length <= 3}>
-        <summary><span className="mono">{r.code}</span> · {r.cooperative} · {r.last_quantity} L tersisa</summary>
-        <p className="note" style={{ margin: "6px 0" }}>Nira {r.sap_type} · {r.distillation_date} · produksi {r.volume_liters} L</p>
-        <VerificationBadge status={r.verification_status} recalled={r.recalled} /><RiskBadge label={r.risk.label} />
+    <section className="section" style={{ marginTop: '40px' }}><h2>⚙️ Perlu dilanjutkan</h2>
+      {!active.length && <div style={{ padding: '48px 24px', textAlign: 'center', background: 'var(--muted-light)', borderRadius: 'var(--radius)', border: '2px dashed var(--line)' }}><div style={{ fontSize: '3rem', marginBottom: '16px' }}>✅</div><p className="note" style={{ fontSize: '16px' }}>Tidak ada batch yang menunggu tahap berikutnya.</p></div>}
+      {active.map((r) => (<details key={r.code} className="item attn" open={active.length <= 3} style={{ marginBottom: '16px' }}>
+        <summary style={{ cursor: 'pointer', fontWeight: '700', fontSize: '1.05rem' }}><span className="mono">{r.code}</span> · 🏘️ {r.cooperative} · 🧪 {r.last_quantity} L tersisa</summary>
+        <p className="note" style={{ margin: "10px 0" }}>🌾 Nira {r.sap_type} · 📅 {r.distillation_date} · 📦 produksi {r.volume_liters} L</p>
+        <div style={{ marginBottom: '12px' }}><VerificationBadge status={r.verification_status} recalled={r.recalled} /><RiskBadge label={r.risk.label} /></div>
         <ChainMini chain={r.chain} />
-        {r.volume_status === "tidak_konsisten" && <div className="banner-bad" role="alert"><strong>Volume tidak konsisten</strong>{r.volume_note}</div>}
+        {r.volume_status === "tidak_konsisten" && <div className="banner-bad" role="alert" style={{ marginTop: '12px' }}><strong>⚠️ Volume tidak konsisten</strong>{r.volume_note}</div>}
         <StepForm row={r} onDone={reload} />
-        <p className="note"><Link href={`/batch/${r.code}`}>Lihat halaman publik batch</Link></p>
+        <p className="note" style={{ marginTop: '16px' }}><Link href={`/batch/${r.code}`} style={{ color: 'var(--green)', fontWeight: '600' }}>📄 Lihat halaman publik batch →</Link></p>
       </details>))}
     </section>
-    {rest.length > 0 && <section className="section"><h2>Selesai atau ditarik</h2>
-      {rest.map((r) => (<div key={r.code} className={`item${r.recalled ? " recalled" : ""}`}><Link href={`/batch/${r.code}`} className="mono">{r.code}</Link> <VerificationBadge status={r.verification_status} recalled={r.recalled} />
-        {r.recalled && <p className="note bad-text" style={{ margin: "4px 0" }}>{r.recall_reason}</p>}<ChainMini chain={r.chain} /></div>))}</section>}
+    {rest.length > 0 && <section className="section" style={{ marginTop: '40px' }}><h2>✅ Selesai atau ditarik</h2>
+      {rest.map((r) => (<div key={r.code} className={`item${r.recalled ? " recalled" : ""}`}><h3><Link href={`/batch/${r.code}`} className="mono" style={{ textDecoration: 'none' }}>{r.code}</Link></h3><div style={{ marginBottom: '8px' }}><VerificationBadge status={r.verification_status} recalled={r.recalled} /></div>
+        {r.recalled && <p className="note bad-text" style={{ margin: "6px 0", fontWeight: '600' }}>🚫 {r.recall_reason}</p>}<ChainMini chain={r.chain} /></div>))}</section>}
   </main>);
 }
 
