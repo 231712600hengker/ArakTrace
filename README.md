@@ -77,8 +77,8 @@ Diagram lengkap: `docs/architecture.md`.
 Prasyarat: Node.js 18+, npm. Supabase dan Gemini bersifat opsional untuk pengembangan lokal (ada mode memori dan jawaban cadangan).
 
 ```bash
-git clone [ISI - URL repository GitHub Anda]
-cd araktrace
+git clone https://github.com/231712600hengker/ArakTrace.git
+cd ArakTrace
 npm install
 cp .env.example .env.local      # isi variabel yang diperlukan
 npm run dev                     # http://localhost:3000
