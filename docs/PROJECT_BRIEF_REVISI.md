@@ -8,12 +8,12 @@ Pergub Bali No. 1 Tahun 2020 melegalkan dan mengatur minuman fermentasi/destilas
 > **Yang perlu ditambahkan tim:** angka dan sumber kasus keracunan metanol, ukuran sentra produksi (misalnya Karangasem), dan margin perajin. Jangan menulis angka tanpa rujukan. Tempat mencari: Dinas Kesehatan Provinsi Bali, BPOM, Dinas Koperasi, berita dari media resmi.
 
 ## 2. Solusi
-Aplikasi web yang (a) mencatat batch dan rantai pasok sesuai alur Pergub, (b) menampilkan status verifikasi pihak ketiga, tujuh pemeriksaan, dan skor risiko untuk pembeli lewat kode/QR, (c) memakai AI untuk membaca sertifikat lab dan menjawab pertanyaan perajin dari rujukan regulasi.
+Aplikasi web yang (a) mencatat batch dan rantai pasok prototipe, (b) menampilkan status verifikasi pihak ketiga, **sembilan pemeriksaan**, dan skor risiko untuk pembeli lewat kode/QR, (c) memakai AI untuk membaca sertifikat lab dan menjawab pertanyaan perajin dari rujukan kurasi. Detail regulasi dan ambang demo hanya boleh dipakai setelah verifikasi sumber primer.
 
 **Perubahan penting dari brief awal**
 - **Bukan "memotong perantara".** Koperasi dan produsen adalah mata rantai wajib menurut Pergub (Pasal 7–10). Nilai yang ditawarkan: transparansi harga dan asal-usul serta posisi tawar koperasi, bukan melewati koperasi.
 - **Data tidak hanya diisi sendiri.** Ada peran verifikator, OCR sertifikat lab, dan aturan bahwa tahap hilir hanya untuk batch terverifikasi.
-- **Cukai dan izin menjadi pemeriksaan eksplisit:** surat jalan (Pasal 8), IUI/NPPBKC/izin edar produsen (Pasal 1 butir 11), label cukai.
+- **Sembilan pemeriksaan eksplisit:** izin koperasi, higienitas, uji lab, surat jalan, verifikasi pihak ketiga, parameter harga, konsistensi volume, izin produsen, dan label cukai. Dasar regulasi tiap pemeriksaan masih perlu diverifikasi.
 - **AI Advisor dibatasi:** hanya menjawab dari rujukan, menolak di luar topik, tidak pernah menyatakan produk pasti aman.
 
 ## 3. Peran dan fitur MVP (berfungsi)

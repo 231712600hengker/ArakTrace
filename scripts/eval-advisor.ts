@@ -12,5 +12,10 @@ const result = rows.map((item) => {
   const passed = item.should_reject ? hits.length === 0 && mode === "fallback" : hits.length > 0 && topicMatched;
   return { pertanyaan: item.question, sumber: hits.map((hit) => hit.id).join(", ") || "-", mode, hasil: passed ? "lolos" : "gagal" };
 });
+console.log("\n=== Hasil Uji Retrieval BM25 (bukan uji akurasi jawaban AI) ===");
 console.table(result);
+const passed = result.filter((r) => r.hasil === "lolos").length;
+console.log(`\n${passed}/${result.length} topik ditemukan retrieval.`);
+console.log("CATATAN: Eval ini hanya memverifikasi bahwa potongan dokumen relevan diambil (retrieval),");
+console.log("         BUKAN memverifikasi bahwa jawaban Gemini benar atau sitasi mendukung jawaban.");
 if (result.some((row) => row.hasil === "gagal")) process.exitCode = 1;

@@ -27,7 +27,7 @@ describe("lapisan data", () => {
     expect(b?.verification_status).toBe("self_reported");
     expect(b?.events).toHaveLength(2);
     await verifyBatch(code, "verified", "Verifikator uji", "ok");
-    await addEvent(code, { actor_type: "produsen", actor_name: "Produsen Contoh Dewata Spirit", event: "QC", event_date: "2026-11-05", quantity_liters: 45, producer_id: "p1", excise_band_no: "MOCK-PITA-1" });
+    await addEvent(code, { actor_type: "produsen", actor_name: "Produsen Dewata Spirit", event: "QC", event_date: "2026-11-05", quantity_liters: 45, producer_id: "p1", excise_band_no: "MOCK-PITA-1" });
     b = await getBatchView(code);
     expect(b?.producer?.id).toBe("p1");
     expect(b?.excise_band_no).toBe("MOCK-PITA-1");

@@ -2,7 +2,7 @@
 
 Platform traceability rantai pasok dan AI untuk arak tradisional Bali, dikembangkan untuk **AI Web Innovation Challenge, Bali DigiFest 2026**.
 
-> **DATA DEMO.** Semua nama koperasi, produsen, perajin, nomor izin, nomor pita cukai, dan hasil laboratorium dalam repo ini adalah **tiruan**. Hanya teks regulasi untuk AI Advisor yang berasal dari sumber nyata (lihat Third-party Resources).
+> **DATA DEMO.** Semua nama koperasi, produsen, perajin, nomor izin, nomor pita cukai, dan hasil laboratorium dalam repo ini adalah **tiruan**. Rujukan regulasi Advisor adalah kurasi/parafrase yang **belum diverifikasi tim terhadap naskah resmi**; jangan gunakan sebagai dasar keputusan hukum atau keamanan.
 
 ## Description
 
@@ -38,7 +38,7 @@ Rekonsiliasi volume, batas harga, dan penarikan adalah **logika deterministik** 
 
 ## Tech Stack
 
-- **Frontend:** Next.js 14 (App Router), React 18, TypeScript strict, CSS kustom
+- **Frontend:** Next.js 14 (App Router), React 18, TypeScript strict, Framer Motion (animasi & transisi interaktif dasbor), CSS kustom
 - **Backend:** Next.js API Routes (serverless)
 - **Database & Auth:** Supabase (PostgreSQL, RLS aktif, Supabase Auth)
 - **AI:** Gemini API (vision untuk OCR sertifikat, teks untuk Advisor), BM25 buatan sendiri untuk retrieval, regresi logistik (scikit-learn) untuk skor risiko
@@ -83,7 +83,7 @@ npm install
 cp .env.example .env.local      # isi variabel yang diperlukan
 npm run dev                     # http://localhost:3000
 npm test                        # unit test
-npm run eval:advisor            # evaluasi retrieval (24 pertanyaan)
+npm run eval:advisor            # uji retrieval BM25 (24 pertanyaan) — mengukur apakah topik yang benar ditemukan, BUKAN akurasi jawaban Gemini
 ```
 
 Dengan Supabase (wajib untuk deployment): jalankan `supabase/schema.sql` di SQL Editor (aman diulang; wajib dijalankan ulang bila sebelumnya memakai v2), isi `.env.local`, lalu `npm run seed` dan `npm run demo:users`. Panduan langkah demi langkah: `docs/DEPLOY_STEP_BY_STEP.md`.
@@ -104,7 +104,7 @@ Aplikasi memiliki login. **Kredensial akun demo untuk juri dikirim lewat form/ka
 | Produsen | `produsen.demo@araktrace.example` | Dasbor, lanjutkan rantai batch terverifikasi |
 | Verifikator | `verifikator.demo@araktrace.example` | Dasbor, verifikasi/tolak, tarik batch |
 
-Setelah masuk, pengguna langsung diarahkan ke dasbor sesuai peran. Pencarian batch, daftar batch, dan AI Advisor dapat dicoba tanpa login. Kode contoh:
+Setelah masuk, pengguna langsung diarahkan ke dasbor sesuai peran. Pencarian batch, daftar batch, dan AI Advisor dapat dicoba tanpa login. Pilihan kode batch untuk demo:
 
 | Kode | Menunjukkan |
 |---|---|
@@ -115,7 +115,7 @@ Setelah masuk, pengguna langsung diarahkan ke dasbor sesuai peran. Pencarian bat
 | `ARK-KLK-2609-0001` | **Anomali volume** (jumlah di sub distributor melebihi tahap sebelumnya) |
 | `ARK-GYR-2608-0001` | **Ditarik dari peredaran** (menampilkan pemegang hilir) |
 | `ARK-BLL-2608-0001` | Terverifikasi dan **siap diproses produsen** (dipakai demo akun produsen) |
-| `ARK-BGL-2608-0001` | Harga beli di bawah batas bawah Pasal 9 | Contoh gambar sertifikat untuk uji OCR: `public/demo/`.
+| `ARK-BGL-2608-0001` | Harga beli di bawah batas bawah Pasal 9 | Gambar sertifikat untuk uji OCR: `public/demo/`.
 
 ## Known Limitations
 
@@ -123,7 +123,8 @@ Setelah masuk, pengguna langsung diarahkan ke dasbor sesuai peran. Pencarian bat
 2. **Verifikasi bergantung pada verifikator manusia.** Sistem tidak memvalidasi keaslian dokumen lab; OCR hanya membaca angka dari gambar dan tidak mendeteksi pemalsuan.
 3. **QR belum anti-salin.** QR hanya mengarah ke URL batch. Pada produk nyata perlu QR unik per kemasan yang terikat label cukai/segel.
 4. **Model risiko berbasis data sintetis**, bukan hasil validasi lapangan.
-5. **Rujukan Advisor terbatas** pada 14 potongan di `data/chunks.json`; retrieval leksikal (BM25), bukan embedding. Teks regulasi perlu dicocokkan ulang dengan naskah resmi (`docs/SUMBER_VERIFIKASI.md`).
+5. **Rujukan Advisor belum diverifikasi tim** terhadap naskah resmi. Ia terbatas pada 14 potongan di `data/chunks.json`; retrieval leksikal (BM25), bukan embedding. Sebelum demo/submisi, cocokkan setiap potongan dengan naskah primer dan perbarui parameter aplikasi bila diperlukan (`docs/SUMBER_VERIFIKASI.md`).
+6. **`npm run eval:advisor` hanya menguji retrieval.** Hasil 24/24 berarti topik/sumber yang diharapkan ditemukan atau ditolak oleh BM25; itu tidak mengukur kebenaran jawaban Gemini maupun kecukupan sitasinya.
 6. **Rantai berbentuk garis lurus:** satu distributor/sub distributor/penjual per batch (belum ada pemecahan batch ke banyak penerima). Tahap hilir dicatat oleh akun produsen berdasarkan dokumen (distributor dan penjual belum punya akun sendiri).
 7. **Rate limit dan cache Advisor ada di memori** per instance serverless, sehingga tidak ketat pada skala besar.
 8. **Pengujian otomatis tidak mencakup Supabase asli dan Supabase Auth** (hanya mode memori dan logika hak akses); alur login perlu diuji manual setelah deploy.
@@ -131,18 +132,18 @@ Setelah masuk, pengguna langsung diarahkan ke dasbor sesuai peran. Pencarian bat
 
 ## Third-party Resources / Credits
 
-- **Library:** Next.js, React, TypeScript, @supabase/supabase-js, @supabase/ssr, Vitest, tsx, dotenv (semua lisensi permisif; lihat `DISCLOSURE.md`).
+- **Library:** Next.js, React, TypeScript, Framer Motion (transisi & mikro-interaksi responsif untuk 3 peran dasbor dan AI Advisor), @supabase/supabase-js, @supabase/ssr, Vitest, tsx, dotenv (semua lisensi permisif; lihat `DISCLOSURE.md`).
 - **Layanan:** Google Gemini API, Supabase, Vercel.
 - **Font:** Inter dan JetBrains Mono (Google Fonts, SIL OFL) lewat `next/font`.
 - **Sumber rujukan Advisor** (`data/chunks.json`): Peraturan Gubernur Bali No. 1 Tahun 2020; Peraturan BPOM No. 5 Tahun 2021; Dewi dkk. (2022), *Kajian Etnosains Proses Pembuatan Arak Bali di Desa Tri Eka Buana*, JPPSI 5(1) (diparafrasekan).
-- **Aset buatan tim:** `public/demo/*.png` (contoh sertifikat tiruan), logo.
+- **Aset buatan tim:** `public/demo/*.png` (dokumen sertifikat uji laboratorium untuk pengujian OCR), logo.
 
 ## Team Members
 
-[ISI - Lengkapi tabel berikut dengan informasi tim Anda]
+**Tim: ArakTrace** | Instansi: Universitas Atma Jaya Yogyakarta
 
-| Nama | Peran | Kontribusi Utama |
-|---|---|---|
-| [Nama 1] | Ketua / Full-stack Developer | Arsitektur sistem, API, integrasi AI |
-| [Nama 2] | AI/ML Developer | Model risiko, RAG, OCR integration |
-| [Nama 3] | Frontend Developer | UI/UX, responsive design |
+| Nama | NPM | Peran | Kontribusi Utama |
+|---|---|---|---|
+| Sion Felix Saragih | 231712600 | Ketua / Full-stack Developer | Arsitektur sistem, API Routes, integrasi Supabase, deploy Vercel |
+| Theofilus Willy Marojahan Hgl | 231712622 | Machine Learning Developer | Model risiko (regresi logistik), pipeline RAG BM25, integrasi OCR Gemini |
+| Benedict Saviola Pradana | 231712243 | Frontend Developer | UI/UX, desain komponen, responsive design |

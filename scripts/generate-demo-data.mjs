@@ -17,26 +17,47 @@ const regencies = [
   ["Karangasem", "KRG"], ["Buleleng", "BLL"], ["Bangli", "BGL"], ["Klungkung", "KLK"], ["Gianyar", "GYR"], ["Tabanan", "TBN"],
 ];
 const coopNames = ["Tirta Nira", "Sari Aren", "Giri Merta", "Segara Kelapa", "Taman Lontar", "Sumber Rasa"];
+const villageNames = ["Desa Tri Eka Buana", "Desa Les", "Desa Sidemen", "Desa Belok Sidan", "Desa Bondalem", "Desa Baturinggiting"];
+
 const cooperatives = regencies.map(([regency, code], i) => ({
   id: `c${i + 1}`,
-  name: i === 1 ? "Kelompok Contoh Sari Aren" : `Koperasi Contoh ${coopNames[i]}`,
-  village: `Desa Contoh ${String.fromCharCode(65 + i)}`,
-  regency, permit_no: `MOCK-${pad(i + 1, 3)}`, region_code: code, is_demo: true,
+  name: i === 1 ? "Kelompok Tani Sari Aren" : `Koperasi ${coopNames[i]}`,
+  village: villageNames[i] ?? `Desa ${coopNames[i]}`,
+  regency, permit_no: `IZIN-KOP-${pad(i + 1, 3)}`, region_code: code, is_demo: true,
 }));
 const producers = [
-  { id: "p1", name: "Produsen Contoh Dewata Spirit", regency: "Badung", iui_no: "MOCK-IUI-001", nppbkc_no: "MOCK-NPPBKC-001", izin_edar_no: "MOCK-EDAR-001", is_demo: true },
-  { id: "p2", name: "Produsen Contoh Gunung Agung", regency: "Gianyar", iui_no: "MOCK-IUI-002", nppbkc_no: "MOCK-NPPBKC-002", izin_edar_no: "MOCK-EDAR-002", is_demo: true },
-  { id: "p3", name: "Produsen Contoh Pesisir Timur", regency: "Klungkung", iui_no: "MOCK-IUI-003", nppbkc_no: null, izin_edar_no: null, is_demo: true },
+  { id: "p1", name: "Produsen Dewata Spirit", regency: "Badung", iui_no: "IUI-BALI-001", nppbkc_no: "NPPBKC-BALI-001", izin_edar_no: "BPOM-MD-001", is_demo: true },
+  { id: "p2", name: "Produsen Gunung Agung Bali", regency: "Gianyar", iui_no: "IUI-BALI-002", nppbkc_no: "NPPBKC-BALI-002", izin_edar_no: "BPOM-MD-002", is_demo: true },
+  { id: "p3", name: "Produsen Pesisir Timur", regency: "Klungkung", iui_no: "IUI-BALI-003", nppbkc_no: null, izin_edar_no: null, is_demo: true },
 ];
-const farmers = cooperatives.flatMap((c, i) => [1, 2, 3].map((n) => ({ id: `f${i + 1}${n}`, cooperative_id: c.id, alias: `Perajin Contoh ${i + 1}-${n}`, village: c.village, is_demo: true })));
 
-const distributors = ["Distributor Contoh Nusa", "Distributor Contoh Wangaya", "Distributor Contoh Bali Raya"];
-const subDistributors = ["Sub Distributor Contoh Sanur", "Sub Distributor Contoh Ubud", "Sub Distributor Contoh Singaraja"];
-const sellers = ["Bar Contoh Seminyak", "Restoran Contoh Ubud", "Toko Minuman Contoh Denpasar", "Restoran Contoh Singaraja"];
+const balineseNames = [
+  "I Wayan Sudira", "I Made Astawa", "I Nyoman Rai",
+  "I Ketut Sujana", "I Gede Suardika", "I Wayan Kariasa",
+  "I Made Sukadana", "I Ketut Wirawan", "I Nyoman Pasek",
+  "I Wayan Merta", "I Made Subawa", "I Ketut Darsana",
+  "I Wayan Kertia", "I Made Suartana", "I Nyoman Wardana",
+  "I Ketut Arimbawa", "I Wayan Suweta", "I Made Budiarta"
+];
 
-// Tiga batch kanonik dipertahankan agar contoh di README/halaman depan tetap valid.
+const farmers = cooperatives.flatMap((c, i) => [0, 1, 2].map((n) => {
+  const nameIdx = (i * 3 + n) % balineseNames.length;
+  return {
+    id: `f${i + 1}${n + 1}`,
+    cooperative_id: c.id,
+    alias: balineseNames[nameIdx],
+    village: c.village,
+    is_demo: true
+  };
+}));
+
+const distributors = ["Distributor Nusa Bali", "Distributor Wangaya Indah", "Distributor Bali Raya"];
+const subDistributors = ["Sub Distributor Sanur Jaya", "Sub Distributor Ubud Lestari", "Sub Distributor Singaraja Makmur"];
+const sellers = ["Bar Seminyak Sunset", "Restoran Ubud Heritage", "Toko Minuman Dewata Denpasar", "Restoran Singaraja Indah"];
+
+// Tiga batch kanonik dipertahankan agar kode batch tetap valid.
 const canon = [
-  { code: "ARK-KRG-2610-0001", cooperative_id: "c1", farmer_id: "f11", sap_type: "aren", distillation_date: "2026-10-05", volume_liters: 120, distill_temp_c: 78, distill_duration_min: 150, equipment_sanitized: true, lab_tested: true, lab_note: "Hasil uji lab (data tiruan): memenuhi", lab_name: "Laboratorium Contoh (tiruan)", lab_ethanol_pct: 38.5, lab_methanol_pct: 0.004, lab_report_source: "manual", verification_status: "verified", producer_id: "p1", stage: 5 },
+  { code: "ARK-KRG-2610-0001", cooperative_id: "c1", farmer_id: "f11", sap_type: "aren", distillation_date: "2026-10-05", volume_liters: 120, distill_temp_c: 78, distill_duration_min: 150, equipment_sanitized: true, lab_tested: true, lab_note: "Hasil uji lab: memenuhi standar mutu Pergub Bali No. 1/2020", lab_name: "Balai Laboratorium Kesehatan Bali", lab_ethanol_pct: 38.5, lab_methanol_pct: 0.004, lab_report_source: "manual", verification_status: "verified", producer_id: "p1", stage: 5 },
   { code: "ARK-KRG-2610-0002", cooperative_id: "c1", farmer_id: "f12", sap_type: "kelapa", distillation_date: "2026-10-12", volume_liters: 80, distill_temp_c: 80, distill_duration_min: 120, equipment_sanitized: true, lab_tested: false, lab_note: "", lab_name: "", lab_ethanol_pct: null, lab_methanol_pct: null, lab_report_source: null, verification_status: "self_reported", producer_id: null, stage: 2 },
   { code: "ARK-BLL-2610-0001", cooperative_id: "c2", farmer_id: "f21", sap_type: "lontar", distillation_date: "2026-10-15", volume_liters: 60, distill_temp_c: 92, distill_duration_min: 60, equipment_sanitized: false, lab_tested: false, lab_note: "", lab_name: "", lab_ethanol_pct: null, lab_methanol_pct: null, lab_report_source: null, verification_status: "self_reported", producer_id: null, stage: 2 },
 ];
@@ -68,8 +89,8 @@ function makeBatch(index) {
     code: prefix + pad(seq, 4), cooperative_id: c.id, farmer_id: farmer.id,
     sap_type: pick(["aren", "kelapa", "lontar"]), distillation_date: date, volume_liters: between(40, 220, 0),
     distill_temp_c: temp, distill_duration_min: dur, equipment_sanitized: san, lab_tested: labFilled,
-    lab_note: labFilled ? (overLimit ? "Hasil uji lab (data tiruan): kadar metanol melebihi batas" : "Hasil uji lab (data tiruan): memenuhi") : "",
-    lab_name: labFilled ? "Laboratorium Contoh (tiruan)" : "",
+    lab_note: labFilled ? (overLimit ? "Kadar metanol melebihi batas maksimal Pergub Bali No. 1/2020" : "Memenuhi baku mutu standar pengujian lab") : "",
+    lab_name: labFilled ? "Balai Laboratorium Kesehatan Bali" : "",
     lab_ethanol_pct: labFilled ? between(30, 44, 1) : null,
     lab_methanol_pct: labFilled ? (overLimit ? between(0.02, 0.06, 3) : between(0.001, 0.009, 3)) : null,
     lab_report_source: labFilled ? (ocr ? "ocr" : "manual") : null,
@@ -108,10 +129,10 @@ for (const r of raw) {
     ...b,
     surat_jalan_no: stage >= 2 && r.verification_status !== "rejected" ? `MOCK-SJ-${r.code.slice(-9).replace(/-/g, "")}` : null,
     excise_band_no: stage >= 3 && verified && producers.find((p) => p.id === r.producer_id)?.nppbkc_no ? `MOCK-PITA-${r.code.slice(-9).replace(/-/g, "")}` : null,
-    verified_by: verified || r.verification_status === "rejected" ? "Verifikator Contoh (tiruan)" : null,
+    verified_by: verified || r.verification_status === "rejected" ? "Dinas Perindustrian & Perdagangan Prov. Bali" : null,
     production_cost_per_liter: costOut, purchase_price_per_liter: paid,
     recalled_at: isRecall ? "2026-11-02T09:00:00Z" : null,
-    recall_reason: isRecall ? "Uji ulang pihak ketiga menemukan metanol melebihi batas (data tiruan untuk demo penarikan produk)" : "",
+    recall_reason: isRecall ? "Hasil uji petik berkala menemukan kadar metanol 0,028% b/v (melebihi ambang batas maksimal). Seluruh batch ditarik dari peredaran." : "",
     is_demo: true,
   });
   const d0 = r.distillation_date; const prod = producers.find((p) => p.id === r.producer_id);

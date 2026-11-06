@@ -10,6 +10,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <DemoBanner />
     <NavBar />
     {children}
-    <footer className="footer">ArakTrace.bali, dikembangkan untuk AI Web Innovation Challenge, Bali DigiFest 2026. Skor risiko adalah triase awal dan bukan pengganti uji laboratorium; keamanan minuman, termasuk kadar metanol, hanya dapat dipastikan lewat uji lab resmi.</footer>
+    <footer className="footer">ArakTrace.bali · Tim ArakTrace, Universitas Atma Jaya Yogyakarta · AI Web Innovation Challenge, Bali DigiFest 2026. Skor risiko adalah triase awal dan bukan pengganti uji laboratorium; keamanan minuman, termasuk kadar metanol, hanya dapat dipastikan lewat uji lab resmi.</footer>
   </body></html>);
 }

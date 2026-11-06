@@ -373,7 +373,7 @@ Environment:
 - Browser testing untuk user flows
 
 ### Evaluation
-- `scripts/eval-advisor.ts` - Evaluasi kualitas jawaban AI Advisor
+- `scripts/eval-advisor.ts` - Uji retrieval topik dan sumber yang ditemukan BM25; bukan evaluasi kualitas atau akurasi jawaban AI Advisor
 - `data/eval-questions.json` - Test cases dengan expected references
 
 ---

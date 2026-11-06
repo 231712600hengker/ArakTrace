@@ -4,7 +4,7 @@ import { qrMatrix, qrSvgPath } from "@/lib/qr";
 describe("qrMatrix", () => {
   it("memilih versi sesuai panjang data dan konsisten (deterministik)", () => {
     expect(qrMatrix("ARK-KRG-2610-0001")).toHaveLength(25); // versi 2
-    expect(qrMatrix("https://contoh.example/batch/ARK-KRG-2610-0001")).toHaveLength(33); // versi 4
+    expect(qrMatrix("https://araktrace.bali/batch/ARK-KRG-2610-0001")).toHaveLength(33); // versi 4
     expect(qrMatrix("abc")).toEqual(qrMatrix("abc"));
   });
   it("memuat tiga pola pencari di sudut dan modul gelap tetap", () => {

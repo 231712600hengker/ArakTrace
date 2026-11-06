@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseLabOcr } from "@/lib/ocr";
 
-const good = '{"is_lab_report": true, "lab_name": "Lab Contoh", "report_date": "2026-10-01", "ethanol_pct": 38.5, "methanol_pct": "0,004", "verdict": "memenuhi", "confidence": 0.92}';
+const good = '{"is_lab_report": true, "lab_name": "Balai Lab Pangan Bali", "report_date": "2026-10-01", "ethanol_pct": 38.5, "methanol_pct": "0,004", "verdict": "memenuhi", "confidence": 0.92}';
 
 describe("parseLabOcr", () => {
   it("mengurai JSON valid, termasuk koma desimal dan pagar kode", () => {
